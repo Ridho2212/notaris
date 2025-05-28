@@ -17,7 +17,8 @@
                     <th>Jenis</th>
                     <th>Status</th>
                     <th>Tanggal</th>
-                    <th>Dokumen</th> <!-- Tambah kolom -->
+                    <th>Dokumen</th>
+                    <th>Action</th>
                 </tr>
             </thead>
             <tbody>

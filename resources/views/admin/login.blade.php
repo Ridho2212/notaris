@@ -17,7 +17,7 @@
 </head>
 
 <body class="bg-gradient-primary">
-    <div class="container" style="margin-top: 100px">
+    <div class="container" style="margin-top: 80px">
         <!-- Outer Row -->
         <div class="row justify-content-center">
             <div class="col-xl-5 col-lg-6 col-md-9">

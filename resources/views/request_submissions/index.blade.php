@@ -29,7 +29,7 @@
                         <td>{{ $s->submission_date }}</td>
                         <td>
                             @if ($s->document_path)
-                                <a href="{{ asset('storage/' . $s->document_path) }}" target="_blank">Lihat</a>
+                                <a href="{{ route('request-submissions.document', $s->id) }}" target="_blank">Lihat</a>
                             @else
                                 Tidak Ada
                             @endif

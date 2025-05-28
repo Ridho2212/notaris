@@ -5,20 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use App\Models\RequestSubmission;
-use Exception;
-use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class RequestSubmissionController extends Controller
 {
-    public function index(){
-        try {
-          $submissions = RequestSubmission::latest()->get();
+    public function index()
+    {
+        $submissions = RequestSubmission::latest()->get();
         return view('request_submissions.index', compact('submissions'));
-        } catch (Exception $e) {
-            Log::error('Error di RequestSubmissionController@create: ' . $e->getMessage());
-            return back()->withErrors(['error' => 'Terjadi kesalahan saat membuka halaman Lihat Dokumen.']);
-        }
     }
+
     
     public function create()
     {
@@ -43,7 +39,7 @@ class RequestSubmissionController extends Controller
     public function update(Request $request, $id)
     {
         $validated = $request->validate([
-            'client_name' => 'required',
+            'client_id' => 'required',
             'request_type' => 'required',
             'status' => 'required',
             'submission_date' => 'required|date',
@@ -68,7 +64,7 @@ class RequestSubmissionController extends Controller
         return redirect()->route('request-submissions.index')->with('success', 'Data berhasil dihapus.');
     }
 
-    public function store(Request $request)
+ public function store(Request $request)
     {
         $validated = $request->validate([
             'client_name' => 'required|string|max:255',
@@ -80,7 +76,7 @@ class RequestSubmissionController extends Controller
         ]);
 
         if ($request->hasFile('document')) {
-            $validated['document_path'] = $request->file('document')->store('documents');
+            $validated['document_path'] = $request->file('document')->store('documents', 'local');
         }
 
         RequestSubmission::create($validated);
@@ -88,5 +84,16 @@ class RequestSubmissionController extends Controller
         return redirect()->route('request-submissions.index')->with('success', 'Data berhasil disimpan.');
     }
 
+    public function showDocument($id)
+    {
+        $submission = RequestSubmission::findOrFail($id);
 
+        $filePath = $submission->document_path;
+
+        if (!Storage::disk('local')->exists($filePath)) {
+            abort(404, 'File tidak ditemukan');
+        }
+
+        return response()->file(storage_path('app/private/' . $filePath));
+    }
 }

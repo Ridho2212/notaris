@@ -39,6 +39,7 @@ Route::get('/request-submissions', [RequestSubmissionController::class, 'index']
 Route::get('/request-submissions/create', [RequestSubmissionController::class, 'create'])->name('request-submissions.create');
 Route::post('/request-submissions', [RequestSubmissionController::class, 'store'])->name('request-submissions.store');
 Route::resource('request-submissions', RequestSubmissionController::class);
+Route::get('/request-submissions/document/{id}', [RequestSubmissionController::class, 'showDocument'])->name('request-submissions.document');
 
 Route::get('/clients', [ClientController::class, 'index'])->name('clients.index');
 Route::get('/clients/create', [ClientController::class, 'create'])->name('clients.create');
@@ -66,6 +67,7 @@ Route::get('/documents', [DocumentController::class, 'index'])->name('documents.
 Route::get('/documents/create', [DocumentController::class, 'create'])->name('documents.create');
 Route::post('/documents', [DocumentController::class, 'store'])->name('documents.store');
 Route::resource('documents', DocumentController::class);
+Route::get('/documents/document/{id}', [DocumentController::class, 'showDocument'])->name('documents.document');
 
 
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Document;
+use Illuminate\Support\Facades\Storage;
 
 class DocumentController extends Controller
 {
@@ -71,12 +72,24 @@ class DocumentController extends Controller
         ]);
 
         if ($request->hasFile('file')) {
-            $validated['file_path'] = $request->file('file')->store('documents');
+            $validated['file_path'] = $request->file('file')->store('documents', 'local');
         }
 
         Document::create($validated);
 
         return redirect()->route('documents.index')->with('success', 'Dokumen berhasil diarsipkan.');
     }
-}
 
+    public function showDocument($id)
+    {
+        $submission = Document::findOrFail($id);
+
+        $filePath = $submission->file_path;
+
+        if (!Storage::disk('local')->exists($filePath)) {
+            abort(404, 'File tidak ditemukan');
+        }
+
+        return response()->file(storage_path('app/private/' . $filePath));
+    }
+}

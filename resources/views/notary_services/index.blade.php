@@ -31,7 +31,7 @@
                         <td>{{ $s->processing_date }}</td>
                         <td>
                             @if ($s->draft_path)
-                                <a href="{{ asset('storage/' . $s->draft_path) }}" target="_blank">Lihat</a>
+                                <a href="{{ route('notary-services.document', $s->id) }}" target="_blank">Lihat</a>
                             @else
                                 Tidak Ada
                             @endif

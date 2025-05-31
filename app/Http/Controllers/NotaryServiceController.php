@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\NotaryService;
+use Illuminate\Support\Facades\Storage;
 
 class NotaryServiceController extends Controller
 {
@@ -58,17 +59,29 @@ class NotaryServiceController extends Controller
             'document_type' => 'required|in:pendirian_pt,perubahan_ad,kuasa,dll',
             'processing_date' => 'required|date',
             'document_number' => 'required|string|max:100',
-            'draft' => 'nullable|file|mimes:pdf,docx',
+            'draft_path' => 'nullable|file|mimes:pdf,docx',
             'notes' => 'nullable|string',
         ]);
 
         if ($request->hasFile('draft')) {
-            $validated['draft_path'] = $request->file('draft')->store('drafts');
+            $validated['draft_path'] = $request->file('draft')->store('drafts', 'local');
         }
 
         NotaryService::create($validated);
 
         return redirect()->route('notary-services.index')->with('success', 'Layanan Notaris berhasil disimpan.');
     }
-}
+    
+    public function showDocument($id)
+    {
+        $submission = NotaryService::findOrFail($id);
 
+        $filePath = $submission->draft_path;
+
+        if (!Storage::disk('local')->exists($filePath)) {
+            abort(404, 'File tidak ditemukan');
+        }
+
+        return response()->file(storage_path('app/private/' . $filePath));
+    }
+}

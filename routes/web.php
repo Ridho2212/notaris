@@ -20,7 +20,7 @@ use App\Http\Controllers\RequestSubmissionController;
 
 Route::resource('users', UserController::class);
 
-Route::get('/login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+Route::get('/', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
 Route::post('/login', [AdminAuthController::class, 'login'])->name('admin.login.submit');
 Route::post('/logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
@@ -55,6 +55,7 @@ Route::get('/notary-services', [NotaryServiceController::class, 'index'])->name(
 Route::get('/notary-services/create', [NotaryServiceController::class, 'create'])->name('notary-services.create');
 Route::post('/notary-services', [NotaryServiceController::class, 'store'])->name('notary-services.store');
 Route::resource('notary-services', NotaryServiceController::class);
+Route::get('/notary-services/document/{id}', [NotaryServiceController::class, 'showDocument'])->name('notary-services.document');
 
 Route::get('/service-fees', [ServiceFeeController::class, 'index'])->name('service-fees.index');
 Route::get('/service-fees/create', [ServiceFeeController::class, 'create'])->name('service-fees.create');

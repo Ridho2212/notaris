@@ -11,7 +11,7 @@
             <li class="list-group-item"><strong>Catatan:</strong> {{ $submission->notes }}</li>
             <li class="list-group-item"><strong>Dokumen:</strong>
                 @if($submission->document_path)
-                    <a href="{{ asset('storage/' . $submission->document_path) }}" target="_blank">Lihat Dokumen</a>
+                    <a href="{{ route('request-submissions.document', $submission->id) }}" target="_blank">Lihat Dokumen</a>
                 @else
                     Tidak ada
                 @endif

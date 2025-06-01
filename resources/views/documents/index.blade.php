@@ -43,13 +43,13 @@
                                     <i class="fas fa-pen"></i>
                                 </a>
 
-                                {{-- Download --}}
+                                {{-- Download
                                 @if ($doc->file_path)
-                                    <a href="{{ asset('storage/' . $doc->file_path) }}" class="btn btn-sm btn-secondary me-1"
-                                        title="Download" target="_blank">
-                                        <i class="fas fa-download"></i>
-                                    </a>
-                                @endif
+                                <a href="{{ asset('storage/app/private' . $doc->file_path) }}"
+                                    class="btn btn-sm btn-secondary me-1" title="Download" target="_blank">
+                                    <i class="fas fa-download"></i>
+                                </a>
+                                @endif --}}
 
                                 {{-- Hapus --}}
                                 <form action="{{ route('documents.destroy', $doc->id) }}" method="POST"
